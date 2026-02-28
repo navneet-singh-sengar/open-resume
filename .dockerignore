@@ -1,0 +1,29 @@
+.git/
+.gitignore
+.dockerignore
+.vscode/
+.idea/
+.cursor/
+
+# Python
+backend/venv/
+backend/__pycache__/
+backend/app/__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Data
+*.db
+backend/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs
+README.md
+LICENSE
