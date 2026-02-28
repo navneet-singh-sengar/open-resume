@@ -73,7 +73,7 @@ The fastest way to run OpenResume. Requires only [Docker](https://docs.docker.co
 
 ```bash
 git clone https://github.com/navneet-singh-sengar/open-resume
-cd open_resume
+cd open-resume
 docker compose up --build
 ```
 
