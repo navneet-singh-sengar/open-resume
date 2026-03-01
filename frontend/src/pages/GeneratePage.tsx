@@ -17,7 +17,7 @@ export function GeneratePage() {
 
       <JobInput onGenerated={setResult} />
 
-      {result && <ResumePreview data={result} />}
+      {result && <ResumePreview data={result} onUpdated={setResult} />}
     </div>
   );
 }

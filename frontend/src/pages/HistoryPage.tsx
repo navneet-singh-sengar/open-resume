@@ -56,7 +56,7 @@ export function HistoryPage() {
     return (
       <div className="space-y-4">
         <Button variant="ghost" onClick={() => setSelected(null)}>&larr; Back to History</Button>
-        <ResumePreview data={selected} />
+        <ResumePreview data={selected} onUpdated={setSelected} />
       </div>
     );
   }

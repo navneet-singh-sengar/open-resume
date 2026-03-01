@@ -5,8 +5,13 @@ from fpdf import FPDF
 
 from app.schemas.resume import TailoredResume
 
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "generated_pdfs")
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+def _get_output_dir() -> str:
+    if os.path.isdir("/data") and os.access("/data", os.W_OK):
+        d = "/data/generated_pdfs"
+    else:
+        d = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "generated_pdfs")
+    os.makedirs(d, exist_ok=True)
+    return d
 
 ACCENT = (44, 62, 80)
 DARK = (26, 26, 26)
@@ -194,6 +199,6 @@ def generate_pdf(personal_info: dict, resume: TailoredResume) -> str:
             pdf.cell(0, 4, _safe(f"  -  {cert}"), new_x="LMARGIN", new_y="NEXT")
 
     filename = f"resume_{uuid.uuid4().hex[:8]}.pdf"
-    filepath = os.path.join(OUTPUT_DIR, filename)
+    filepath = os.path.join(_get_output_dir(), filename)
     pdf.output(filepath)
     return filepath

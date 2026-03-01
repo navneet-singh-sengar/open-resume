@@ -14,7 +14,7 @@ from app.models.profile import (
 )
 from app.schemas.resume import (
     ResumeGenerateRequest, ResumeGenerateResponse,
-    ResumeHistoryItem, TailoredResume,
+    ResumeHistoryItem, TailoredResume, ResumeUpdateRequest,
 )
 from app.schemas.job import JobAnalysis
 from app.services.scraper import scrape_job_url
@@ -169,6 +169,52 @@ def download_resume(resume_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="PDF file not found")
     filename = f"resume_{record.job_title.replace(' ', '_')}_{record.id}.pdf"
     return FileResponse(record.pdf_path, media_type="application/pdf", filename=filename)
+
+
+@router.put("/{resume_id}", response_model=ResumeGenerateResponse)
+def update_resume(resume_id: int, req: ResumeUpdateRequest, db: Session = Depends(get_db)):
+    record = db.query(GeneratedResume).filter(GeneratedResume.id == resume_id).first()
+    if not record:
+        raise HTTPException(status_code=404, detail="Resume not found")
+
+    personal = db.query(PersonalInfo).first()
+    personal_info = {
+        "name": personal.name if personal else "",
+        "email": personal.email if personal else "",
+        "phone": personal.phone if personal else None,
+        "location": personal.location if personal else None,
+        "linkedin": personal.linkedin if personal else None,
+        "github": personal.github if personal else None,
+        "portfolio": personal.portfolio if personal else None,
+    }
+
+    updated = req.tailored_resume
+    record.generated_content = updated.model_dump()
+
+    if record.pdf_path and os.path.exists(record.pdf_path):
+        try:
+            os.remove(record.pdf_path)
+        except OSError:
+            pass
+
+    try:
+        pdf_path = generate_pdf(personal_info, updated)
+        record.pdf_path = pdf_path
+    except Exception as e:
+        logger.exception("PDF regeneration failed")
+        raise HTTPException(status_code=500, detail=f"PDF regeneration failed: {e}")
+
+    db.commit()
+    db.refresh(record)
+
+    return ResumeGenerateResponse(
+        id=record.id,
+        job_title=record.job_title,
+        company=record.company,
+        tailored_resume=updated,
+        ai_model_used=record.ai_model_used,
+        created_at=record.created_at,
+    )
 
 
 @router.delete("/{resume_id}")

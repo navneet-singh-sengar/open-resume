@@ -37,6 +37,10 @@ class TailoredResume(BaseModel):
     certifications: list[str] = []
 
 
+class ResumeUpdateRequest(BaseModel):
+    tailored_resume: TailoredResume
+
+
 class ResumeGenerateRequest(BaseModel):
     job_text: Optional[str] = None
     job_url: Optional[str] = None

@@ -8,6 +8,7 @@ import type {
   Certification,
   Publication,
   FullProfile,
+  TailoredResume,
   ResumeGenerateResponse,
   ResumeHistoryItem,
   JobAnalysis,
@@ -75,6 +76,9 @@ export const generateResume = (data: { job_text?: string; job_url?: string; mode
 export const getResumeHistory = () => api.get<ResumeHistoryItem[]>('/resume/history').then(r => r.data);
 
 export const getResume = (id: number) => api.get<ResumeGenerateResponse>(`/resume/${id}`).then(r => r.data);
+
+export const updateResume = (id: number, tailored_resume: TailoredResume) =>
+  api.put<ResumeGenerateResponse>(`/resume/${id}`, { tailored_resume }).then(r => r.data);
 
 export const deleteResume = (id: number) => api.delete(`/resume/${id}`);
 
