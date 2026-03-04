@@ -10,6 +10,19 @@ Generate ATS-optimized resumes tailored to specific job descriptions using a 3-s
 
 ---
 
+**OpenResume solves this.** It is a self-hosted, AI-powered resume generator that takes your professional profile and a job description, then produces a highly customized, ATS-optimized resume in seconds — not a generic template, but a strategically crafted document where every bullet point, keyword, and section is aligned to the specific role you're applying for.
+
+
+### How does it work?
+
+1. **Build your profile once** — Enter your experience, education, skills, and projects, or simply upload an existing resume and let AI parse it for you.
+2. **Paste a job description** — Provide the job posting text or a URL (LinkedIn, etc.) and OpenResume extracts the requirements automatically.
+3. **Get a tailored resume** — A 3-stage AI pipeline analyzes the job, semantically matches your most relevant experience, and generates a keyword-optimized resume with quantifiable achievements.
+4. **Download and apply** — Export a clean, professional PDF ready to submit.
+
+
+---
+
 ## Features
 
 - **3-Stage AI Pipeline** — JD Analysis → Semantic Embedding Match → ATS-Optimized Generation
@@ -48,13 +61,9 @@ flowchart LR
 
 ## Screenshots
 
-<!-- Add screenshots of your app here before publishing -->
-<!-- Example: -->
-<!-- ![Profile Page](docs/screenshots/profile.png) -->
-<!-- ![Generate Page](docs/screenshots/generate.png) -->
-<!-- ![Settings Page](docs/screenshots/settings.png) -->
+![Generate Resume](docs/ss1.png)
 
-*Screenshots coming soon.*
+![Import from Resume](docs/ss2.png)
 
 ## Tech Stack
 
